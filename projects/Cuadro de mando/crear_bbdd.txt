@@ -1,0 +1,105 @@
+-- 1. TABLA DE REGISTRO DIARIO (Biometría, Sueño y Hábitos)
+-- Combina peso, tensión, sueño y dieta para facilitar la carga diaria.
+CREATE TABLE IF NOT EXISTS registro_diario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATE NOT NULL UNIQUE,
+    
+    -- Datos Físicos [cite: 6, 11]
+    peso_kg DECIMAL(5,2) COMMENT 'Objetivo bajar de 95kg',
+    tension_sistolica INT COMMENT 'Alerta si > 150',
+    tension_diastolica INT COMMENT 'Alerta si > 90',
+    frecuencia_cardiaca_reposo INT,
+    
+    -- Sueño y Estado [cite: 33, 36]
+    horas_sueno DECIMAL(3,1) COMMENT 'Objetivo > 6h',
+    calidad_sueno ENUM('Mala', 'Regular', 'Buena', 'Muy buena') COMMENT 'Subjetivo',
+    nivel_hinchazon_piernas INT COMMENT 'Escala 1-5. Ref: Varices',
+    estado_animo INT COMMENT 'Escala 1-5',
+    
+    -- Hábitos Dietéticos (Checklist diario) [cite: 20, 27]
+    dieta_baja_sal BOOLEAN DEFAULT 0,
+    dieta_sin_embutidos BOOLEAN DEFAULT 0,
+    consumo_fruta BOOLEAN DEFAULT 0,
+    consumo_chocolate_negro BOOLEAN DEFAULT 0,
+    
+    observaciones TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 2. TABLA DE MEDICACIÓN CRÓNICA
+-- Basada en hoja de Tratamiento Activo 
+CREATE TABLE IF NOT EXISTS control_medicacion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATE NOT NULL UNIQUE,
+    
+    -- Desayuno
+    atenolol_100mg BOOLEAN DEFAULT 0 COMMENT 'Arritmias/TA',
+    felodipino_5mg BOOLEAN DEFAULT 0 COMMENT 'Tensión Arterial',
+    lamotrigina_100mg_desayuno BOOLEAN DEFAULT 0,
+    
+    -- Cena
+    lamotrigina_100mg_cena BOOLEAN DEFAULT 0,
+    edoxaban_60mg BOOLEAN DEFAULT 0 COMMENT 'Anticoagulante Lixiana',
+    
+    -- Acostarse
+    simvastatina_20mg BOOLEAN DEFAULT 0 COMMENT 'Colesterol',
+    lorazepam_1mg_sos BOOLEAN DEFAULT 0 COMMENT 'Solo si precisa (Insomnio)',
+    
+    -- Otros
+    medias_compresion BOOLEAN DEFAULT 0 COMMENT 'Farmalastic Talla Reina Plus',
+    
+    FOREIGN KEY (fecha) REFERENCES registro_diario(fecha) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 3. TABLA DE EPISODIOS DE ARRITMIA
+-- Para registrar los 3-4 eventos anuales y la medicación de rescate [cite: 7, 35]
+CREATE TABLE IF NOT EXISTS episodios_arritmia (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_hora_inicio DATETIME NOT NULL,
+    duracion_minutos INT,
+    
+    -- Medicación de rescate "Pill in the pocket"
+    toma_flecainida BOOLEAN DEFAULT 0 COMMENT 'Apocard 100mg (2 comp)',
+    
+    sintomas TEXT COMMENT 'Palpitaciones, mareo, etc.',
+    desencadenante_sospechado VARCHAR(255) COMMENT 'Estrés, alcohol, esfuerzo...',
+    acudio_urgencias BOOLEAN DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4. TABLA DE ACTIVIDAD FÍSICA
+-- Registra Aeróbica (Bici/Trekking) y Anaeróbica [cite: 12, 13, 14, 15]
+CREATE TABLE IF NOT EXISTS actividad_fisica (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATE NOT NULL,
+    tipo_actividad ENUM('Bicicleta Electrica', 'Trekking', 'Fuerza/Gimnasio', 'Caminar', 'Otro') NOT NULL,
+    
+    distancia_km DECIMAL(5,2),
+    tiempo_minutos INT,
+    calorias_garmin INT COMMENT 'Dato importado de Garmin Connect',
+    sensacion_esfuerzo INT COMMENT 'Escala Borg 1-10',
+    
+    FOREIGN KEY (fecha) REFERENCES registro_diario(fecha) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 5. TABLA DE ANALÍTICAS
+-- Para seguimiento renal y sanguíneo [cite: 134, 19]
+CREATE TABLE IF NOT EXISTS analiticas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_muestra DATE NOT NULL,
+    
+    -- Salud Renal (Crítico por medicación)
+    creatinina DECIMAL(4,2) COMMENT 'Ref: 0.92 mg/dL',
+    filtrado_glomerular INT COMMENT 'Ref: 84 mL/min',
+    
+    -- Hematología
+    hemoglobina DECIMAL(4,1) COMMENT 'Ref: 16.6 g/dL',
+    hematocrito DECIMAL(4,1) COMMENT 'Ref: 52.3%',
+    
+    -- Perfil Lipídico
+    colesterol_total INT,
+    colesterol_hdl INT,
+    colesterol_ldl INT,
+    trigliceridos INT,
+    
+    archivo_adjunto VARCHAR(255) COMMENT 'Nombre del PDF en servidor'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
