@@ -20,68 +20,105 @@
         }
     </style>
 </head>
-<body class="site-shell">
-
-    <header class="site-header">
-        <div class="header-inner container">
-            <div class="site-brand">
-                <a href="/">
-                    <img src="https://common.jumalenin.com/assets/img/logo-horizontal.svg" alt="Jumalenin" />
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <div class="container header-inner">
+                <a class="site-brand" href="https://home.jumalenin.com">
+                    <img src="https://common.jumalenin.com/assets/img/logo-horizontal.svg" alt="Jumalenin">
                 </a>
+
+                <nav class="site-nav" aria-label="Navegación principal">
+                    <a href="https://home.jumalenin.com">Home</a>
+                    <a href="https://support.jumalenin.com">Support</a>
+                    <a href="https://clima.jumalenin.com">Clima</a>
+                    <a href="https://common.jumalenin.com">Common</a>
+                </nav>
             </div>
-            <nav class="site-nav">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/support">Support</a></li>
-                    <li><a href="/clima">Clima</a></li>
-                    <li><a href="https://common.jumalenin.com">Common</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        </header>
 
-    <main class="site-main">
-        <section class="hero">
-            <div class="hero-inner container">
-                <p class="hero-kicker">Staging</p>
-                <h1 class="hero-title">Zona de pruebas antes de publicar cambios definitivos.</h1>
-                <p class="hero-lead">Página destinada a validar cambios de diseño, navegación y estructura.</p>
+        <main class="site-main">
+            <section class="hero">
+                <div class="container hero-inner" style="display:flex;align-items:flex-start;gap:2rem;">
+                    <div style="flex:1;min-width:0;">
+                        <span class="hero-kicker">Staging</span>
+                        <h1 class="hero-title">Zona de pruebas</h1>
+                        <p class="hero-lead">
+                            Entorno para validar cambios de diseño, navegación y estructura antes de publicarlos en los sitios principales.
+                        </p>
+                        <div class="hero-actions" style="margin-top:1rem;">
+                            <a class="btn btn-primary" href="https://home.jumalenin.com">Volver a Home</a>
+                            <a class="btn btn-secondary" href="https://support.jumalenin.com" style="margin-left:0.5rem;">Ver Support</a>
+                        </div>
+                    </div>
+
+                    <aside class="hero-panel" style="width:320px;flex-shrink:0;">
+                        <h2>Estado del entorno</h2>
+                        <p>
+                            Staging queda reservado para ensayar cambios antes de llevarlos a producción.
+                        </p>
+                        <ul class="meta-list">
+                            <li><strong>Identidad:</strong> cargada desde common</li>
+                            <li><strong>Uso:</strong> pruebas y validación</li>
+                            <li><strong>Publicación:</strong> no definitiva</li>
+                        </ul>
+                    </aside>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Panel de pruebas</h2>
+                        <p>
+                            Accesos y comprobaciones básicas del entorno de staging.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-2">
+                        <article class="card project-card">
+                            <span class="badge badge-primary">Preparado</span>
+                            <h3>Estado</h3>
+                            <p>Entorno preparado para validar cambios antes de pasarlos a producción.</p>
+                        </article>
+
+                        <article class="card project-card">
+                            <span class="badge">Revisión</span>
+                            <h3>Pruebas recientes</h3>
+                            <p>Espacio para revisar ajustes de diseño, navegación, estructura y enlaces.</p>
+                        </article>
+
+                        <article class="card project-card">
+                            <span class="badge badge-accent">Accesos</span>
+                            <h3>Enlaces útiles</h3>
+                            <p>Acceso rápido a las áreas principales de Jumalenin.</p>
+                            <div class="card-footer">
+                                <a class="card-link" href="https://home.jumalenin.com">Home →</a><br>
+                                <a class="card-link" href="https://support.jumalenin.com">Support →</a><br>
+                                <a class="card-link" href="https://clima.jumalenin.com">Clima →</a><br>
+                                <a class="card-link" href="https://common.jumalenin.com">Common →</a>
+                            </div>
+                        </article>
+
+                        <article class="card project-card">
+                            <span class="badge">Atención</span>
+                            <h3>Aviso</h3>
+                            <p>El contenido de staging puede cambiar, estar incompleto o no representar la versión final.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container footer-inner">
+                <div>
+                    <p><strong>Staging</strong> — Zona de pruebas</p>
+                    <p>Entorno interno de validación para Jumalenin.</p>
+                </div>
+                <p>© Jumalenin</p>
             </div>
-        </section>
-
-        <section class="section container">
-            <div class="grid grid-2">
-                <article class="card project-card">
-                    <h3>Estado</h3>
-                    <p>Entorno preparado para validar cambios antes de pasarlos a producción.</p>
-                    <div class="card-footer"><span class="badge">Preparado</span></div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Pruebas recientes</h3>
-                    <p>Espacio para revisar ajustes de diseño, navegación y estructura.</p>
-                    <div class="card-footer"><a class="card-link" href="#">Ver pruebas</a></div>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Enlaces útiles</h3>
-                    <p><a href="/">Home</a> · <a href="/support">Support</a> · <a href="/clima">Clima</a> · <a href="https://common.jumalenin.com">Common</a></p>
-                </article>
-
-                <article class="card project-card">
-                    <h3>Aviso</h3>
-                    <p>El contenido de staging puede cambiar o estar incompleto.</p>
-                    <div class="card-footer"><span class="badge">Atención</span></div>
-                </article>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="footer-inner container">
-            <p>Staging — Zona de pruebas</p>
-        </div>
-    </footer>
-
+        </footer>
+    </div>
 </body>
 </html>
