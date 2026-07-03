@@ -8,17 +8,6 @@
     <link rel="stylesheet" href="https://common.jumalenin.com/assets/css/jumalenin-core.css">
     <link rel="stylesheet" href="https://common.jumalenin.com/assets/css/jumalenin-layout.css">
     <link rel="stylesheet" href="https://common.jumalenin.com/assets/css/jumalenin-components.css">
-    <style>
-        .chart-container { 
-            position: relative; 
-            width: 100%; 
-            height: 300px; 
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container { height: 350px; }
-        }
-    </style>
 </head>
 <body>
     <div class="site-shell">
@@ -39,20 +28,20 @@
 
         <main class="site-main">
             <section class="hero">
-                <div class="container hero-inner" style="display:flex;align-items:flex-start;gap:2rem;">
-                    <div style="flex:1;min-width:0;">
+                <div class="container hero-inner grid grid-2">
+                    <div>
                         <span class="hero-kicker">Staging</span>
                         <h1 class="hero-title">Zona de pruebas</h1>
                         <p class="hero-lead">
                             Entorno para validar cambios de diseño, navegación y estructura antes de publicarlos en los sitios principales.
                         </p>
-                        <div class="hero-actions" style="margin-top:1rem;">
+                        <div class="hero-actions">
                             <a class="btn btn-primary" href="https://home.jumalenin.com">Volver a Home</a>
-                            <a class="btn btn-secondary" href="https://support.jumalenin.com" style="margin-left:0.5rem;">Ver Support</a>
+                            <a class="btn btn-secondary" href="https://support.jumalenin.com">Ver Support</a>
                         </div>
                     </div>
 
-                    <aside class="hero-panel" style="width:320px;flex-shrink:0;">
+                    <aside class="hero-panel">
                         <h2>Estado del entorno</h2>
                         <p>
                             Staging queda reservado para ensayar cambios antes de llevarlos a producción.
