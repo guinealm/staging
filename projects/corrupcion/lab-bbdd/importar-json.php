@@ -15,7 +15,7 @@ function responder(array $payload, int $statusCode = 200): void
 
 function parsearFuente(?string $fuenteRaw): array
 {
-    $fuente = trim((string) $fuenteRaw);
+    $fuente = normalizarTextoUtf8($fuenteRaw);
 
     if ($fuente === '') {
         return [
@@ -40,23 +40,47 @@ function parsearFuente(?string $fuenteRaw): array
     ];
 }
 
+function normalizarTextoUtf8(?string $texto): string
+{
+    $valor = trim((string) $texto);
+
+    // Fuerza UTF-8 normal para evitar parametros tratados como binario en comparaciones SQL.
+    if (function_exists('mb_convert_encoding')) {
+        $convertido = mb_convert_encoding($valor, 'UTF-8', 'UTF-8');
+        if ($convertido !== false) {
+            $valor = $convertido;
+        }
+    }
+
+    return $valor;
+}
+
 function obtenerOInsertarId(PDO $pdo, string $tabla, string $nombre): int
 {
     $mapa = [
         'corr_partidos' => [
-            'select' => 'SELECT id FROM corr_partidos WHERE nombre = :nombre LIMIT 1',
+            // Se fuerza utf8mb4_unicode_ci para evitar mezcla de collations al comparar texto.
+            'select' => 'SELECT id FROM corr_partidos
+                         WHERE nombre COLLATE utf8mb4_unicode_ci = CONVERT(:nombre USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                         LIMIT 1',
             'insert' => 'INSERT INTO corr_partidos (nombre, sigla) VALUES (:nombre, NULL)',
         ],
         'corr_fases' => [
-            'select' => 'SELECT id FROM corr_fases WHERE nombre = :nombre LIMIT 1',
+            'select' => 'SELECT id FROM corr_fases
+                         WHERE nombre COLLATE utf8mb4_unicode_ci = CONVERT(:nombre USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                         LIMIT 1',
             'insert' => 'INSERT INTO corr_fases (nombre, `orden`) VALUES (:nombre, NULL)',
         ],
         'corr_tribunales' => [
-            'select' => 'SELECT id FROM corr_tribunales WHERE nombre = :nombre LIMIT 1',
+            'select' => 'SELECT id FROM corr_tribunales
+                         WHERE nombre COLLATE utf8mb4_unicode_ci = CONVERT(:nombre USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                         LIMIT 1',
             'insert' => 'INSERT INTO corr_tribunales (nombre, ambito) VALUES (:nombre, NULL)',
         ],
         'corr_personas' => [
-            'select' => 'SELECT id FROM corr_personas WHERE nombre = :nombre LIMIT 1',
+            'select' => 'SELECT id FROM corr_personas
+                         WHERE nombre COLLATE utf8mb4_unicode_ci = CONVERT(:nombre USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                         LIMIT 1',
             'insert' => 'INSERT INTO corr_personas (nombre) VALUES (:nombre)',
         ],
     ];
@@ -148,6 +172,9 @@ if ($rawJson === false) {
     ], 500);
 }
 
+// Elimina BOM UTF-8 si existiera para decodificar JSON de forma consistente.
+$rawJson = preg_replace('/^\xEF\xBB\xBF/', '', $rawJson);
+
 $casos = json_decode($rawJson, true);
 if (!is_array($casos)) {
     responder([
@@ -184,6 +211,9 @@ try {
         ]
     );
 
+    // Fuerza juego de caracteres y collation de sesion para evitar mezcla utf8mb4_unicode_ci vs utf8mb4_bin.
+    $pdo->exec('SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci');
+
     $pdo->beginTransaction();
 
     if (ENABLE_PRE_CLEAN) {
@@ -195,7 +225,8 @@ try {
 
     $stmtBuscarCaso = $pdo->prepare(
         'SELECT id FROM corr_casos
-         WHERE nombre = :nombre AND partido_id = :partido_id AND fase_id = :fase_id AND tribunal_id = :tribunal_id
+                 WHERE nombre COLLATE utf8mb4_unicode_ci = CONVERT(:nombre USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                     AND partido_id = :partido_id AND fase_id = :fase_id AND tribunal_id = :tribunal_id
          LIMIT 1'
     );
 
@@ -218,8 +249,22 @@ try {
     $stmtExisteFuente = $pdo->prepare(
         'SELECT id FROM corr_fuentes
          WHERE caso_id = :caso_id
-           AND COALESCE(titulo, "") = COALESCE(:titulo, "")
-           AND COALESCE(url, "") = COALESCE(:url, "")
+           AND (
+                (titulo IS NULL AND :titulo IS NULL)
+                OR (
+                    titulo IS NOT NULL
+                    AND CONVERT(:titulo USING utf8mb4) IS NOT NULL
+                    AND titulo COLLATE utf8mb4_unicode_ci = CONVERT(:titulo USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                )
+           )
+           AND (
+                (url IS NULL AND :url IS NULL)
+                OR (
+                    url IS NOT NULL
+                    AND CONVERT(:url USING utf8mb4) IS NOT NULL
+                    AND url COLLATE utf8mb4_unicode_ci = CONVERT(:url USING utf8mb4) COLLATE utf8mb4_unicode_ci
+                )
+           )
          LIMIT 1'
     );
 
@@ -233,10 +278,10 @@ try {
             throw new RuntimeException('Cada elemento del JSON debe ser un objeto de caso.');
         }
 
-        $partidoNombre = trim((string) ($caso['partido'] ?? ''));
-        $faseNombre = trim((string) ($caso['fase'] ?? ''));
-        $tribunalNombre = trim((string) ($caso['tribunal'] ?? ''));
-        $casoNombre = trim((string) ($caso['caso'] ?? ''));
+        $partidoNombre = normalizarTextoUtf8((string) ($caso['partido'] ?? ''));
+        $faseNombre = normalizarTextoUtf8((string) ($caso['fase'] ?? ''));
+        $tribunalNombre = normalizarTextoUtf8((string) ($caso['tribunal'] ?? ''));
+        $casoNombre = normalizarTextoUtf8((string) ($caso['caso'] ?? ''));
 
         if ($partidoNombre === '' || $faseNombre === '' || $tribunalNombre === '' || $casoNombre === '') {
             throw new RuntimeException('Hay un caso con campos obligatorios vacios (partido, fase, tribunal o caso).');
@@ -255,10 +300,10 @@ try {
         $casoId = $stmtBuscarCaso->fetchColumn();
 
         if ($casoId === false) {
-            $estado = trim((string) ($caso['estado'] ?? ''));
+            $estado = normalizarTextoUtf8((string) ($caso['estado'] ?? ''));
             $visiblePublico = ($estado === 'Excluido') ? 0 : 1;
 
-            $ultimaRevision = trim((string) ($caso['ultimaRevision'] ?? ''));
+            $ultimaRevision = normalizarTextoUtf8((string) ($caso['ultimaRevision'] ?? ''));
             if ($ultimaRevision === '') {
                 $ultimaRevision = null;
             }
@@ -268,11 +313,11 @@ try {
                 ':partido_id' => $partidoId,
                 ':fase_id' => $faseId,
                 ':tribunal_id' => $tribunalId,
-                ':gravedad' => trim((string) ($caso['gravedad'] ?? '')),
-                ':vinculo' => trim((string) ($caso['vinculo'] ?? '')),
+                ':gravedad' => normalizarTextoUtf8((string) ($caso['gravedad'] ?? '')),
+                ':vinculo' => normalizarTextoUtf8((string) ($caso['vinculo'] ?? '')),
                 ':estado' => $estado,
                 ':visible_publico' => $visiblePublico,
-                ':observaciones' => trim((string) ($caso['observaciones'] ?? '')),
+                ':observaciones' => normalizarTextoUtf8((string) ($caso['observaciones'] ?? '')),
                 ':ultima_revision' => $ultimaRevision,
             ]);
 
@@ -286,7 +331,7 @@ try {
         $personas = preg_split('/\s*,\s*/', $personasRaw) ?: [];
 
         foreach ($personas as $personaNombreRaw) {
-            $personaNombre = trim($personaNombreRaw);
+            $personaNombre = normalizarTextoUtf8($personaNombreRaw);
             if ($personaNombre === '') {
                 continue;
             }
