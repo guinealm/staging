@@ -249,22 +249,9 @@ try {
     $stmtExisteFuente = $pdo->prepare(
         'SELECT id FROM corr_fuentes
          WHERE caso_id = :caso_id
-           AND (
-                (titulo IS NULL AND :titulo IS NULL)
-                OR (
-                    titulo IS NOT NULL
-                    AND CONVERT(:titulo USING utf8mb4) IS NOT NULL
-                    AND titulo COLLATE utf8mb4_unicode_ci = CONVERT(:titulo USING utf8mb4) COLLATE utf8mb4_unicode_ci
-                )
-           )
-           AND (
-                (url IS NULL AND :url IS NULL)
-                OR (
-                    url IS NOT NULL
-                    AND CONVERT(:url USING utf8mb4) IS NOT NULL
-                    AND url COLLATE utf8mb4_unicode_ci = CONVERT(:url USING utf8mb4) COLLATE utf8mb4_unicode_ci
-                )
-           )
+           -- Parametros unicos + collation forzada para evitar HY093 y mezcla de cotejamientos.
+           AND titulo COLLATE utf8mb4_unicode_ci <=> CONVERT(:titulo_cmp USING utf8mb4) COLLATE utf8mb4_unicode_ci
+           AND url COLLATE utf8mb4_unicode_ci <=> CONVERT(:url_cmp USING utf8mb4) COLLATE utf8mb4_unicode_ci
          LIMIT 1'
     );
 
@@ -359,8 +346,8 @@ try {
 
         $stmtExisteFuente->execute([
             ':caso_id' => $casoId,
-            ':titulo' => $fuente['titulo'],
-            ':url' => $fuente['url'],
+            ':titulo_cmp' => $fuente['titulo'],
+            ':url_cmp' => $fuente['url'],
         ]);
 
         if ($stmtExisteFuente->fetchColumn() === false) {
