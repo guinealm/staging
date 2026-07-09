@@ -160,6 +160,104 @@ Fecha de corte para novedades: posterior a 2026-05-27.
 Nota metodologica:
 Estas fichas son de validacion editorial Fase 6A. No implican cambios tecnicos, SQL ni alteraciones de codigo o base de datos.
 
+## 7. Revision editorial de julio 2026 - Bloque 3 (casos 18 a 22)
+
+Fecha de corte para novedades: posterior a 2026-05-27.
+
+### Caso 18 - Punica - pieza 8 / Arpegio-Mintra
+- Caso: 18
+- Estado base (MySQL, 2026-05-27): Apertura de juicio oral
+- Novedades confirmadas posteriores al corte:
+    - No se identifica en este corte un hito judicial nuevo, posterior al 2026-05-27, con confirmacion suficiente en fuentes de referencia que cambie el estado base.
+    - El envio a juicio de esta pieza se consolida en cobertura de finales de mayo de 2026, pero ese movimiento queda fuera del umbral temporal de este bloque.
+- Hipotesis, interpretaciones o ruido politico:
+    - Presentar como novedad de junio-julio un hito procesal que realmente corresponde a finales de mayo.
+    - Generalizar el estado de toda la macrocausa Punica a partir de piezas distintas.
+- Propuesta editorial Fase 6A:
+    - Mantener sin cambios de fase en este corte.
+    - No ocultar.
+    - Dejar en seguimiento para la siguiente pasada por si aparecen nuevos autos o senalamientos.
+- Fuentes fiables:
+    - RTVE, 2026-05-26 (referencia de contexto inmediatamente previa al corte): https://www.rtve.es/noticias/20260526/an-lleva-a-juicio-a-francisco-granados-otras-40-personas-por-corrupcion-nueva-pieza-punica/17087011.shtml
+
+### Caso 19 - Lezo - campo de golf Canal Isabel II
+- Caso: 19
+- Estado base (MySQL, 2026-05-27): Juicio oral senalado para septiembre de 2027
+- Novedades confirmadas posteriores al corte:
+    - No se localiza en este corte una novedad procesal posterior al 2026-05-27 que modifique de forma sustantiva el estado.
+    - Se mantiene como referencia valida el senalamiento para septiembre de 2027 difundido a finales de 2025 y recogido en seguimientos de 2026.
+- Hipotesis, interpretaciones o ruido politico:
+    - Relecturas politicas del caso sin resolucion judicial nueva en junio-julio.
+    - Confundir recordatorios periodisticos con hitos procesales nuevos.
+- Propuesta editorial Fase 6A:
+    - Mantener sin cambios de fase.
+    - No ocultar.
+    - Dejar en observacion hasta acercarse la ventana del juicio oral.
+- Fuentes fiables:
+    - Europa Press, 2025-12-23 (contexto vigente en el corte): https://www.europapress.es/nacional/noticia-an-fija-septiembre-2027-juicio-ignacio-gonzalez-adjudicaciones-asociadas-campo-golf-canal-20251223132052.html
+
+### Caso 20 - Gurtel - ultima pieza fiscal / residual
+- Caso: 20
+- Estado base (MySQL, 2026-05-27): Pendiente de sentencia o recursos segun pieza
+- Novedades confirmadas posteriores al corte:
+    - En las fuentes revisadas para este bloque no se identifica, con estandar de confirmacion suficiente, un hito judicial nuevo posterior al 2026-05-27 que obligue a cambiar estado.
+    - La referencia de Arganda localizada en RTVE corresponde al tramo marzo 2025 y no constituye novedad del periodo de corte actual.
+- Hipotesis, interpretaciones o ruido politico:
+    - Extrapolar movimientos de piezas concretas a un cierre global de todo Gurtel residual.
+    - Reintroducir debates politicos antiguos como si fueran novedad judicial de junio-julio 2026.
+- Propuesta editorial Fase 6A:
+    - Mantener sin cambios de fase en este corte.
+    - No ocultar.
+    - Dejar en seguimiento por posible aparicion de sentencias o recursos en piezas pendientes.
+- Fuentes fiables:
+    - RTVE, 2025-03-31 (contexto de Arganda, previo al corte): https://www.rtve.es/noticias/20250331/todos-acusados-menos-uno-aceptan-penas-inferiores-tras-confesar-red-trama-guertel-arganda/16514444.shtml
+
+### Caso 21 - Taula / Imelsa - pieza E
+- Caso: 21
+- Estado base (MySQL, 2026-05-27): Juicio oral
+- Novedades confirmadas posteriores al corte:
+    - 2026-06-23: la Audiencia Provincial de Valencia absuelve a los cinco acusados de la pieza E por falta de prueba suficiente y por prescripcion en parte de los hechos enjuiciados.
+    - El fallo es relevante para el estado editorial de esta pieza, al pasar de fase de juicio a sentencia absolutoria en primera instancia.
+- Hipotesis, interpretaciones o ruido politico:
+    - Presentar la absolucion como cierre total de todo Taula/Imelsa cuando se trata de una pieza concreta.
+    - Lecturas de culpabilidad social no alineadas con el fallo de esta causa.
+- Propuesta editorial Fase 6A:
+    - Actualizarse (prioridad alta).
+    - Cambiar de fase editorial en esta pieza a sentencia absolutoria.
+    - No ocultar.
+    - Dejar en seguimiento por eventual recurso, pero con actualizacion inmediata del estado actual.
+- Fuentes fiables:
+    - Poder Judicial (TSJCV), 2026-06-23: https://www.poderjudicial.es/cgpj/eu/Botere-Judiziala/Berriak/Absueltos-los-cinco-acusados-de-la-pieza-E-del--caso-Taula--por-supuestas-irregularidades-en-contratos-de-la-Concejalia-de-Cultura-del-Ayuntamiento-de-Valencia
+    - Cadena SER, 2026-06-23: https://cadenaser.com/comunitat-valenciana/2026/06/23/absueltos-los-cinco-acusados-de-la-pieza-e-del-caso-taula-por-falta-de-pruebas-y-prescripcion-de-delitos-radio-valencia/
+
+### Caso 22 - Brugal - basuras de Orihuela
+- Caso: 22
+- Estado base (MySQL, 2026-05-27): Sentencia reciente; posible fase de recursos
+- Novedades confirmadas posteriores al corte:
+    - No se identifica en este corte un nuevo hito judicial firme posterior al 2026-05-27 que altere el estado base.
+    - La condena relevante de esta pieza permanece en enero de 2026, por tanto anterior al umbral temporal aplicado en este bloque.
+- Hipotesis, interpretaciones o ruido politico:
+    - Tratar movimientos politico-administrativos locales como si fueran resoluciones judiciales de fondo.
+    - Interpretar la existencia de posibles recursos como novedad sin resolucion nueva acreditada en este corte.
+- Propuesta editorial Fase 6A:
+    - Mantener sin cambios de fase en este corte.
+    - No ocultar.
+    - Dejar en observacion para detectar recursos o resoluciones posteriores verificables.
+- Fuentes fiables:
+    - Europa Press, 2026-01-12 (hito principal de contexto, previo al corte): https://www.europapress.es/comunitat-valenciana/noticia-condenada-exalcaldesa-orihuela-tres-exediles-causa-basuras-pieza-matriz-brugal-20260112145719.html
+    - EFE, 2026-01-12 (contraste de la misma resolucion): https://efe.com/comunidad-valenciana/2026-01-12/condenada-la-exalcaldesa-de-orihuela-por-el-contrato-de-basuras/
+
+## 8. Resumen editorial del bloque
+- Casos revisados en este bloque: 5
+- Con actualizacion recomendada: 1 (21)
+- Sin novedad suficientemente solida para cambio en este corte: 4 (18, 19, 20, 22)
+- Cambio de fase recomendado: 1 (caso 21)
+- Casos a ocultar: 0
+- Casos en seguimiento pendiente para cierre de decision tecnica futura: 4 (18, 19, 20, 22)
+
+Nota metodologica:
+Estas fichas son de validacion editorial Fase 6A. No implican cambios tecnicos, SQL ni alteraciones de codigo o base de datos.
+
 ## 5. Revision editorial de julio 2026 - Bloque 2 (casos 13 a 17)
 
 Fecha de corte para novedades: posterior a 2026-05-27.
