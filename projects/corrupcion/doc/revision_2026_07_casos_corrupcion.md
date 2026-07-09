@@ -456,3 +456,39 @@ Fecha de corte para novedades: posterior a 2026-05-27.
 
 Nota metodologica:
 Estas fichas son de validacion editorial Fase 6A. No implican cambios tecnicos, SQL ni alteraciones de codigo o base de datos.
+
+
+## Ejecución técnica anticipada en MySQL
+
+Durante la Fase 6A se aplicaron accidentalmente cambios directos en MySQL sobre los casos 8, 17, 21 y 25.
+
+Fecha de aplicación: 2026-07-09
+
+Cambios aplicados:
+- Caso 8: cambio de fase a Condena y actualización de observaciones.
+- Caso 17: cambio de fase a Condena y actualización de observaciones.
+- Caso 21: actualización de observaciones.
+- Caso 25: actualización de observaciones.
+
+La comprobación posterior confirma:
+- total de casos: 20
+- casos públicos: 20
+- última revisión máxima: 2026-07-09
+- existencia de la fase Condena en corr_fases
+
+## Decisión final de validación (confirmada)
+
+Fecha de confirmación del usuario: 2026-07-09
+
+Resultado por caso:
+- Caso 8: mantener.
+    - Fase y texto aplicados se consideran editorialmente correctos para el estado actual.
+- Caso 17: mantener.
+    - Fase y texto aplicados se consideran editorialmente correctos para la pieza juzgada.
+- Caso 21: mantener.
+    - Texto aplicado correcto; sin cambio de fase por ausencia de fase específica de absolución en el catálogo actual.
+- Caso 25: mantener.
+    - Texto aplicado correcto y alineado con la remisión a Audiencia Provincial pendiente de señalamiento.
+
+Acciones pendientes:
+- Ninguna acción de corrección o reversión sobre los casos 8, 17, 21 y 25.
