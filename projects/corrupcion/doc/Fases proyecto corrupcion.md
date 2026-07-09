@@ -7,6 +7,7 @@ Fase 4 — Base de datos
   4C — App experimental index-db.html
   4D — Importación de 20 casos
   4E — Comparación JSON vs MySQL y preparación de sustitución
+  4F - Sustitucion controlada de producción
 
 Fase 5 — Diseño general Jumalenin
          Home / support / staging / estética común / límites visuales
