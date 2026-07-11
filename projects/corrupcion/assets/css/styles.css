@@ -51,6 +51,39 @@ body {
   font-size: 0.9rem;
 }
 
+.review-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.review-warning {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.review-warning::before {
+  content: "\00B7";
+  margin-right: 0.35rem;
+  color: #b45309;
+}
+
+.review-note {
+  color: #9ca3af;
+}
+
+.hidden {
+  display: none;
+}
+
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -231,6 +264,14 @@ tr:hover {
 @media (max-width: 700px) {
   .site-header h1 {
     font-size: 1.25rem;
+  }
+
+  .review-summary {
+    gap: 0.35rem;
+  }
+
+  .review-warning {
+    font-size: 0.78rem;
   }
 
   .container {

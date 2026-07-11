@@ -1,6 +1,8 @@
 let casos = [];
 
 const tableBody = document.getElementById("casesTableBody");
+const lastReviewDateLabel = document.getElementById("lastReviewDateLabel");
+const monthlyUpdateWarning = document.getElementById("monthlyUpdateWarning");
 
 const filters = {
   partido: document.getElementById("filterPartido"),
@@ -60,6 +62,73 @@ function createOption(value) {
   option.value = value;
   option.textContent = value;
   return option;
+}
+
+function parseReviewDate(rawDate) {
+  if (!rawDate) return null;
+
+  const value = String(rawDate).trim();
+  if (!value) return null;
+
+  // Soporta formatos yyyy-mm-dd y dd/mm/yyyy.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+    const [day, month, year] = value.split("/").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function formatDateToDdMmYyyy(date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+function getLatestReviewDate(cases) {
+  let latest = null;
+
+  cases.forEach(caso => {
+    const reviewDate = parseReviewDate(caso.ultimaRevision);
+    if (!reviewDate) return;
+
+    if (!latest || reviewDate > latest) {
+      latest = reviewDate;
+    }
+  });
+
+  return latest;
+}
+
+function updateLastReviewSummary(cases) {
+  if (!lastReviewDateLabel || !monthlyUpdateWarning) return;
+
+  const latestDate = getLatestReviewDate(cases);
+
+  if (!latestDate) {
+    lastReviewDateLabel.textContent = "Última revisión aplicada: --/--/----";
+    monthlyUpdateWarning.classList.add("hidden");
+    return;
+  }
+
+  lastReviewDateLabel.textContent = `Última revisión aplicada: ${formatDateToDdMmYyyy(latestDate)}`;
+
+  const now = new Date();
+  const msPerDay = 1000 * 60 * 60 * 24;
+  const daysSinceLatestReview = Math.floor((now - latestDate) / msPerDay);
+
+  if (daysSinceLatestReview > 35) {
+    monthlyUpdateWarning.classList.remove("hidden");
+  } else {
+    monthlyUpdateWarning.classList.add("hidden");
+  }
 }
 
 function fillSelect(selectElement, values) {
@@ -146,6 +215,7 @@ async function loadData() {
 
     casos = await response.json();
 
+    updateLastReviewSummary(casos);
     fillFilters();
     renderTable(casos);
   } catch (error) {
@@ -157,6 +227,11 @@ async function loadData() {
         </td>
       </tr>
     `;
+
+    if (lastReviewDateLabel && monthlyUpdateWarning) {
+      lastReviewDateLabel.textContent = "Última revisión aplicada: --/--/----";
+      monthlyUpdateWarning.classList.add("hidden");
+    }
 
     console.error(error);
   }
