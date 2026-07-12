@@ -4,6 +4,10 @@
   --text: #1f2933;
   --muted: #6b7280;
   --border: #d1d5db;
+  --header-bg: #0f172a;
+  --header-text: #e5e7eb;
+  --link: #245b5f;
+  --link-hover: #183f42;
 
   --fase-instruccion: #dbeafe;
   --fase-procesamiento: #ede9fe;
@@ -29,22 +33,59 @@ body {
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--link);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+:focus-visible {
+  outline: 3px solid #c28f2c;
+  outline-offset: 2px;
 }
 
 .site-header {
-  background: #111827;
-  color: white;
-  padding: 1.5rem;
+  background: var(--header-bg);
+  color: var(--header-text);
+  border-bottom: 1px solid #1f2937;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.2rem 1.5rem;
 }
 
 .site-header h1 {
   margin: 0 0 0.5rem;
-  font-size: 1.7rem;
+  font-size: clamp(1.35rem, 2.6vw, 1.7rem);
 }
 
 .site-header p {
   margin: 0.25rem 0;
   color: #d1d5db;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 0.82rem;
+}
+
+.back-link:hover {
+  color: #ffffff;
+  border-color: #64748b;
 }
 
 .small {
@@ -124,6 +165,14 @@ input {
   border-radius: 8px;
   background: white;
   font-size: 0.95rem;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+select:focus,
+input:focus {
+  border-color: #8f681d;
+  box-shadow: 0 0 0 3px rgba(194, 143, 44, 0.18);
+  outline: none;
 }
 
 .legend {
@@ -234,6 +283,10 @@ tr:hover {
   background: #f9fafb;
 }
 
+tbody tr:nth-child(even) {
+  background: #fcfcfd;
+}
+
 .case-title {
   font-weight: 700;
 }
@@ -257,13 +310,22 @@ tr:hover {
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 1.5rem 2rem;
+  border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.site-footer p {
+  margin: 0.3rem 0;
 }
 
 @media (max-width: 700px) {
   .site-header h1 {
     font-size: 1.25rem;
+  }
+
+  .header-content {
+    padding: 1rem;
   }
 
   .review-summary {
