@@ -206,24 +206,49 @@ function applyFilters() {
 }
 
 async function loadData() {
-  try {
-    const response = await fetch("api/casos.php");
+  const dataSources = [
+    { url: "api/casos.php", name: "MySQL" },
+    { url: "data/casos.json", name: "copia local" }
+  ];
+  let lastError = null;
 
-    if (!response.ok) {
-      throw new Error("No se pudo cargar api/casos.php");
+  try {
+    for (const source of dataSources) {
+      try {
+        const response = await fetch(source.url, { cache: "no-store" });
+
+        if (!response.ok) {
+          throw new Error(`${source.url} respondió con HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error(`${source.url} no devolvió una lista de casos`);
+        }
+
+        casos = data;
+        updateLastReviewSummary(casos);
+        fillFilters();
+        renderTable(casos);
+
+        if (source.url !== dataSources[0].url) {
+          console.warn(`No se pudo usar MySQL; datos cargados desde ${source.name}.`);
+        }
+
+        return;
+      } catch (error) {
+        lastError = error;
+        console.error(`Error cargando ${source.url}:`, error);
+      }
     }
 
-    casos = await response.json();
-
-    updateLastReviewSummary(casos);
-    fillFilters();
-    renderTable(casos);
+    throw lastError || new Error("No hay ninguna fuente de datos disponible");
   } catch (error) {
     tableBody.innerHTML = `
       <tr>
         <td colspan="10">
-          Error cargando los datos. Revisa que exista el archivo api/casos.php
-          y que Live Server esté funcionando.
+          No se han podido cargar los datos en este momento.
         </td>
       </tr>
     `;
