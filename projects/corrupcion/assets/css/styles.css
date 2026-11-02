@@ -344,3 +344,30 @@ tbody tr:nth-child(even) {
     padding: 0.8rem;
   }
 }
+/* Tabla compacta: los datos relacionados comparten columna. */
+.table-wrap table { table-layout: fixed; min-width: 960px; height: auto; }
+.table-wrap th:nth-child(1) { width: 18%; }
+.table-wrap th:nth-child(2) { width: 20%; }
+.table-wrap th:nth-child(3) { width: 17%; }
+.table-wrap th:nth-child(4) { width: 11%; }
+.table-wrap th:nth-child(5) { width: 26%; }
+.table-wrap th:nth-child(6) { width: 8%; }
+.table-wrap th, .table-wrap td { padding: .65rem .6rem; overflow-wrap: anywhere; }
+.table-wrap tbody tr, .table-wrap td { height: auto; }
+.table-wrap td { font-size: .85rem; line-height: 1.45; }
+.table-wrap .tag { white-space: normal; border-radius: 8px; }
+.cell-secondary { margin-top: .35rem; color: var(--muted); font-size: .8rem; }
+.cell-secondary.status-activo { color: #047857; }
+.cell-secondary.status-dudoso { color: #92400e; }
+.observation-text { white-space: normal; }
+.observation-text.is-collapsed {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.observation-toggle {
+  display: block; margin-top: .3rem; padding: .15rem 0;
+  border: 0; background: transparent; color: var(--link);
+  font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer;
+}

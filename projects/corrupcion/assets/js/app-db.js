@@ -153,7 +153,7 @@ function renderTable(data) {
   if (data.length === 0) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="10">
+        <td colspan="6">
           No hay casos que coincidan con los filtros o la búsqueda.
         </td>
       </tr>
@@ -164,18 +164,50 @@ function renderTable(data) {
   data.forEach(caso => {
     const row = document.createElement("tr");
 
-    row.innerHTML = `
-      <td data-label="Partido / entorno">${caso.partido}</td>
-      <td data-label="Caso"><span class="case-title">${caso.caso}</span></td>
-      <td data-label="Fase"><span class="tag ${getFaseClass(caso.fase)}">${caso.fase}</span></td>
-      <td data-label="Tribunal / órgano">${caso.tribunal}</td>
-      <td data-label="Personas / entidades">${caso.personas}</td>
-      <td data-label="Gravedad"><span class="grave ${getGravedadClass(caso.gravedad)}">${caso.gravedad}</span></td>
-      <td data-label="Tipo de vínculo">${caso.vinculo}</td>
-      <td data-label="Estado"><span class="${getEstadoClass(caso.estado)}">${caso.estado}</span></td>
-      <td data-label="Observaciones">${caso.observaciones}</td>
-      <td data-label="Última revisión">${caso.ultimaRevision}</td>
-    `;
+    const cell = (label) => {
+      const element = document.createElement("td");
+      element.dataset.label = label;
+      row.appendChild(element);
+      return element;
+    };
+    const line = (parent, value, className = "") => {
+      const element = document.createElement("div");
+      element.className = className;
+      element.textContent = value || "—";
+      parent.appendChild(element);
+      return element;
+    };
+    const identity = cell("Caso / partido");
+    line(identity, caso.caso, "case-title");
+    line(identity, caso.partido, "cell-secondary");
+    const phase = cell("Fase / tribunal");
+    line(phase, caso.fase, `tag ${getFaseClass(caso.fase)}`);
+    line(phase, caso.tribunal, "cell-secondary");
+    const people = cell("Personas / vínculo");
+    line(people, caso.personas);
+    line(people, caso.vinculo, "cell-secondary");
+    const state = cell("Gravedad / estado");
+    line(state, caso.gravedad, `grave ${getGravedadClass(caso.gravedad)}`);
+    line(state, caso.estado, `cell-secondary ${getEstadoClass(caso.estado)}`);
+    const notes = cell("Observaciones");
+    const noteText = String(caso.observaciones || "").trim();
+    const paragraph = line(notes, noteText, "observation-text");
+    if (noteText.length > 180) {
+      paragraph.classList.add("is-collapsed");
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "observation-toggle";
+      toggle.textContent = "Ver más";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.addEventListener("click", () => {
+        const collapsed = paragraph.classList.toggle("is-collapsed");
+        toggle.setAttribute("aria-expanded", String(!collapsed));
+        toggle.textContent = collapsed ? "Ver más" : "Ver menos";
+      });
+      notes.appendChild(toggle);
+    }
+    const reviewDate = parseReviewDate(caso.ultimaRevision);
+    line(cell("Revisión"), reviewDate ? formatDateToDdMmYyyy(reviewDate) : caso.ultimaRevision);
 
     tableBody.appendChild(row);
   });
@@ -247,7 +279,7 @@ async function loadData() {
   } catch (error) {
     tableBody.innerHTML = `
       <tr>
-        <td colspan="10">
+        <td colspan="6">
           No se han podido cargar los datos en este momento.
         </td>
       </tr>
